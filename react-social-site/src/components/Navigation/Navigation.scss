@@ -1,4 +1,24 @@
 .navigation {
     grid-area: N;
     background: blue;
+    padding: 5px 10px;
+
+    .item {
+        font-size: 26px;
+    
+        a {
+            cursor: pointer;
+            color: white;
+            text-decoration: none;
+    
+            &:hover {
+                color: gray;
+                transition: all 0.3s ease-in;
+            }
+
+            &.active {
+                color: yellow;
+            }
+        }
+    }
 }

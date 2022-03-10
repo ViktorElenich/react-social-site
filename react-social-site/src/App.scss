@@ -1,6 +1,10 @@
 .container {
+  height: 100vh;
   display: grid;
   grid-template-rows: 90px 1fr;
   grid-template-columns: 2fr 10fr;
   grid-template-areas: 'H H' 'N C';
+}
+.content__container {
+  grid-area: C;
 }
