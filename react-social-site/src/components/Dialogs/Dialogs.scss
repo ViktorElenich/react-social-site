@@ -1,0 +1,35 @@
+.dialogs__container {
+    background: rgba(184, 176, 176, 0.8);
+    height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+
+    .users__container {
+        padding: 10px 15px;
+
+        .user__item {
+            font-size: 24px;
+            margin-bottom: 10px;
+
+            a {
+                text-decoration: none;
+                color: black;
+
+                &.active {
+                    color: gold;
+                    font-weight: bolder;
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+
+    .messages__container {
+        padding: 10px 15px;
+
+        .message__item {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    }
+}
