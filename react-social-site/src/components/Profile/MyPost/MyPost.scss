@@ -1,5 +1,9 @@
 .post__container {
     padding: 10px 15px;
+
+    .my__posts {
+        margin-top: 25px;
+    }
 }
 
 .send__message {
@@ -10,6 +14,6 @@
 
     button {
         width: 90px;
-        margin-bottom: 10px;
+        margin-top: 10px;
     }
 }
