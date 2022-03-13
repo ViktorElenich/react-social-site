@@ -1,7 +1,6 @@
 import React from 'react';
 import './MyPost.scss';
 import { Post } from './Post/Post';
-import { ADD_POST, UPDATE_NEW_POST_TEXT } from '../../../helpers/const';
 
 export const MyPost = (props) => {
 
@@ -9,13 +8,15 @@ export const MyPost = (props) => {
 
     const newPost = React.createRef();
 
-    const addPost = () => {
-        props.dispatch({ type: ADD_POST });
+    const onAddPost = () => {
+        props.addPost()
+        //props.dispatch(addPostAC());
     }
 
     const onTextAreaChange = () => {
         let text = newPost.current.value;
-        props.dispatch({ type: UPDATE_NEW_POST_TEXT, newText: text });
+        props.updateNewPostText(text);
+        //props.dispatch(updatePostAC(text));
     }
 
     return (
@@ -23,7 +24,7 @@ export const MyPost = (props) => {
             <h3>My Posts</h3>
             <div className='send__message'>
                 <textarea ref={newPost} onChange={onTextAreaChange} value={props.newPostText} />
-                <button onClick={ addPost }>Send</button>
+                <button onClick={ onAddPost }>Send</button>
             </div>
             <div className='my__posts'>
                 {posts}

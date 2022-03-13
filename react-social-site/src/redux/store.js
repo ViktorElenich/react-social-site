@@ -1,3 +1,5 @@
+import { dialogsReducer, profileReducer } from "./reducers";
+
 export let store = {
     _state: {
         profilePage: {
@@ -12,7 +14,8 @@ export let store = {
                 { name: 'Elena', message: 'Hi'},
                 { name: 'Victor', message: 'How are you?'},
                 { name: 'Andrei', message: 'Whatsup?'},
-            ]
+            ],
+            newMessage: ''
         },
         sidebar: {}
     },
@@ -26,18 +29,11 @@ export let store = {
         this._render = observer;
     },
     dispatch(action){
-        if(action.type === 'ADD_POST'){
-            let newPost = {
-                name: 'Stas',
-                message: this._state.profilePage.newPostText
-            };
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = '';
-            this._render(this._state)
-        } else if(action.type === 'UPDATE_NEW_POST_TEXT'){
-            this._state.profilePage.newPostText = action.newText;
-            this._render(this._state);
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+
+        this._render(this._state);
     }
 }
 
