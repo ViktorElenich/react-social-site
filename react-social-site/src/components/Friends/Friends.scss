@@ -1,0 +1,18 @@
+.user__photo {
+    width: 90px;
+    height: 90px;
+}
+
+.pagination {
+    font-size: 18px;
+    
+    span {
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    .select__pagination {
+        font-size: 20px;
+        font-weight: bold;
+    }
+}

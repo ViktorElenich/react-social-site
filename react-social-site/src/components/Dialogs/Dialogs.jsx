@@ -4,8 +4,8 @@ import UserItem from './UserItem/UserItem';
 
 export const Dialogs = (props) => {
 
-    const users = props.dialogsPage.dialog.map( user => <UserItem name={user.name} />);
-    const messages = props.dialogsPage.dialog.map( message => <MessageItem message={message.message} />);
+    const users = props.dialogsPage.dialog.map( user => <UserItem name={user.name} key={user.name} />);
+    const messages = props.dialogsPage.dialog.map( message => <MessageItem message={message.message} key={message.message} />);
     const newMessage = props.dialogsPage.newMessage;
 
     const onSendMessage = () => {

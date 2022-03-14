@@ -3,7 +3,7 @@ import { Header } from './components/Header/Header';
 import { Navigation } from './components/Navigation/Navigation';
 import { Profile } from './components/Profile/Profile';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Friends } from './components/Friends/Friends';
+import { FriendsContainer } from './components/Friends/FriendsContainer';
 import { Music } from './components/Music/Music';
 import { News } from './components/News/News.jsx';
 import { Settings } from './components/Settings/Settings';
@@ -20,7 +20,7 @@ const App = (props) => {
           <Routes>
             <Route path='/messages/*' element={<DialogsContainer store={props.store} />} />
             <Route path='/profile' element={<Profile store={props.store}  />} />
-            <Route path='/friends' element={<Friends />} />
+            <Route path='/friends' element={<FriendsContainer />} />
             <Route path='/music' element={<Music />} />
             <Route path='/news' element={<News />} />
             <Route path='/settings' element={<Settings />} />

@@ -4,7 +4,7 @@ import { Post } from './Post/Post';
 
 export const MyPost = (props) => {
 
-    const posts = props.posts.map( post => <Post message={post.message} name={post.name} />)
+    const posts = props.posts.map( post => <Post message={post.message} key={post.name} name={post.name} />)
 
     const newPost = React.createRef();
 
