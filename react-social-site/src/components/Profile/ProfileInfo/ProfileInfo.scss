@@ -1,5 +1,11 @@
 .info {
     padding: 10px 15px;
+
+    img {
+        width: 150px;
+        height: 150px;
+        background-size: contain;
+    }
 }
 
 .img__content {

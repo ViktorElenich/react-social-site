@@ -6,7 +6,7 @@ export const Profile = (props) => {
 
     return (
         <div className='content'>
-            <ProfileInfo />
+            <ProfileInfo profile={props.profile} />
             <MyPostContainer store={props.store} />
         </div>
     )

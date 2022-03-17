@@ -2,9 +2,27 @@
     grid-area: H;
     background: rebeccapurple;
     padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     img{
         width: 60px;
         height: 60px;
+    }
+
+    .login_auth {
+        font-size: 22px;
+        
+        a {
+            text-decoration: none;
+            color: #fff;
+            cursor: pointer;
+
+            &:hover {
+                color: grey;
+                transition: all 0.3s ease-in-out;
+            }
+        }
     }
 }

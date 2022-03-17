@@ -7,15 +7,20 @@ import {
     UPDATE_NEW_POST_TEXT, 
     SET_CURRENT_PAGE, 
     SET_TOTAL_USERS_COUNT, 
-    IS_FETCHING
+    IS_FETCHING,
+    SET_USER_PROFILE,
+    SET_USER_DATA,
+    IS_FOLLOW_PROGRESS
 } from "../helpers/const";
+import { getUsers } from "../../api/api";
 
 const initialStateProfile = {
     posts: [
         { name: 'Anton', message: 'Whatsup!'},
         { name: 'Nikola', message: 'Yo!'},
     ],
-    newPostText: ''
+    newPostText: '',
+    profile: null
 }
 
 const initialStateDialogs =  {
@@ -32,9 +37,18 @@ const initialStateUsers = {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followProgress: []
 }
 
+const initialStateAuth = {
+    userId: null,
+    email: null,
+    login: null,
+    isAuth: false
+}
+
+/* Profile */
 export const profileReducer = (state = initialStateProfile, action) => {
 
 
@@ -54,12 +68,14 @@ export const profileReducer = (state = initialStateProfile, action) => {
                 ...state,
                 newPostText: action.newText
             }
+        case SET_USER_PROFILE:
+            return { ...state, profile: action.profile }
         default:
             return state;
     }
     
 }
-
+/* Messages */
 export const dialogsReducer = (state = initialStateDialogs, action) => {
 
 
@@ -80,7 +96,7 @@ export const dialogsReducer = (state = initialStateDialogs, action) => {
             return state;
     }
 }
-
+/* Users */
 export const usersReducer = (state = initialStateUsers, action) => {
     switch(action.type){
         case FOLLOW:
@@ -111,8 +127,19 @@ export const usersReducer = (state = initialStateUsers, action) => {
             return { ...state, totalUsersCount: action.totalUsersCount }
         case IS_FETCHING:
             return { ...state, isFetching: action.isFetching }
+        case IS_FOLLOW_PROGRESS:
+            return { ...state, followProgress: action.followProgress ? [...state.followProgress, action.userId] : state.followProgress.filter(id => id !== action.userId) }
         default: 
             return state
+    }
+}
+/* Auth */
+export const authReducer = (state = initialStateAuth, action) => {
+    switch(action.type) {
+        case SET_USER_DATA:
+            return { ...state, ...action.data, isAuth: true }
+        default:
+            return state;
     }
 }
 
@@ -126,3 +153,18 @@ export const setUsers = (users) => ({ type: SET_USERS, users });
 export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage });
 export const setUsersTotalCount = (totalUsersCount) => ({ type: SET_TOTAL_USERS_COUNT, totalUsersCount });
 export const setIsFetching = (isFetching) => ({ type: IS_FETCHING, isFetching });
+export const setIsFollowProgress = (followProgress, userId) => ({ type: IS_FOLLOW_PROGRESS, followProgress, userId });
+export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile });
+export const setAuthUserData = (userId, email, login) => ({ type: SET_USER_DATA, data: { userId, email, login } });
+
+export const getUsersThunkCreator = (currentPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(setIsFetching(true));
+        getUsers(currentPage, pageSize).then(res => {
+            dispatch(setIsFetching(false));
+            dispatch(setUsers(res.items));
+            dispatch(setUsersTotalCount(res.totalCount));
+        })
+    }
+    
+}
