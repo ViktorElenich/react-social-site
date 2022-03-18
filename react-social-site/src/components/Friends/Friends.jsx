@@ -1,7 +1,7 @@
 import React from 'react';
 import profilePhoto from '../../assets/icons/profile.png';
 import { NavLink } from 'react-router-dom';
-import { followUnfollowPost, followUnfollowPostDelete } from '../../api/api';
+import './Friends.scss';
 
 export const Friends = (props) => {
 
@@ -10,7 +10,7 @@ export const Friends = (props) => {
     for(let i = 1; i <= pagesCount; i++){
         pages.push(i);
     }
-    //debugger
+
     return (
         <div>
             <div className='pagination'>
@@ -32,24 +32,10 @@ export const Friends = (props) => {
                                 <div>
                                     { user.followed ? 
                                     <button disabled={props.isFollowProgress.some(id => id === user.id)} onClick={ () => { 
-                                        //debugger
-                                        props.setIsFollowProgress(true, user.id);
-                                        followUnfollowPostDelete(user.id).then(res => {
-                                            if(res.resultCode === 0){
-                                                props.unfollow(user.id) 
-                                            }
-                                            props.setIsFollowProgress(false, user.id)
-                                        })
-
+                                        props.unFollowThunk(user.id);
                                     }} >Unfollow</button> 
                                     : <button disabled={props.isFollowProgress.some(id => id === user.id)} onClick={ () => {
-                                        props.setIsFollowProgress(true, user.id)
-                                        followUnfollowPost(user.id).then(res => {
-                                            if(res.resultCode === 0){
-                                                props.follow(user.id) 
-                                            }
-                                            props.setIsFollowProgress(false, user.id)
-                                        })
+                                        props.followThunk(user.id)
                                         }} >Follow</button> }
                                 </div>
                             </span>

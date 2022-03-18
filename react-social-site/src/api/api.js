@@ -22,3 +22,13 @@ export const followUnfollowPostDelete = async (id) => {
     const res = await instance.delete(`follow/${id}`);
     return res.data;
 }
+
+export const getProfile = async (userId) => {
+    const res = await instance.get(`profile/${userId}`);
+    return res.data;
+}
+
+export const getAuthMe = async () => {
+    const res = await instance.get(`auth/me`);
+    return res.data;
+}

@@ -12,7 +12,7 @@ import {
     SET_USER_DATA,
     IS_FOLLOW_PROGRESS
 } from "../helpers/const";
-import { getUsers } from "../../api/api";
+import { getUsers, followUnfollowPost, followUnfollowPostDelete, getProfile, getAuthMe } from "../api/api";
 
 const initialStateProfile = {
     posts: [
@@ -157,6 +157,8 @@ export const setIsFollowProgress = (followProgress, userId) => ({ type: IS_FOLLO
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile });
 export const setAuthUserData = (userId, email, login) => ({ type: SET_USER_DATA, data: { userId, email, login } });
 
+/* Thunk */
+
 export const getUsersThunkCreator = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(setIsFetching(true));
@@ -168,3 +170,42 @@ export const getUsersThunkCreator = (currentPage, pageSize) => {
     }
     
 }
+
+export const followThunk = (id) => {
+    return (dispatch) => {
+        dispatch(setIsFollowProgress(true, id))
+        followUnfollowPost(id).then(res => {
+            if(res.resultCode === 0){
+                dispatch(follow(id))
+            }
+            dispatch(setIsFollowProgress(false, id))
+        })
+    }
+}
+
+export const unFollowThunk = (id) => {
+    return (dispatch) => {
+        dispatch(setIsFollowProgress(true, id))
+        followUnfollowPostDelete(id).then(res => {
+            if(res.resultCode === 0){
+                dispatch(follow(id))
+            }
+            dispatch(setIsFollowProgress(false, id))
+        })
+    }
+}
+
+export const getUserProfile = (userId) => (dispatch) => { 
+    getProfile(userId).then(res => {
+        dispatch(setUserProfile(res));
+    })
+};
+
+export const getAuthUserData = () => (dispatch) => {
+    getAuthMe().then(res => {
+        if(res.resultCode === 0){
+            const { id, email, login } = res.data;
+            dispatch(setAuthUserData(id, email, login));
+        }
+    })
+};

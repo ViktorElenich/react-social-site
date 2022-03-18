@@ -1,11 +1,8 @@
 import { connect } from "react-redux";
 import { 
-    follow, 
-    setUsers, 
-    unfollow, 
+    followThunk, 
+    unFollowThunk, 
     setCurrentPage, 
-    setUsersTotalCount, 
-    setIsFetching, 
     setIsFollowProgress,
     getUsersThunkCreator
 } from "../../redux/reducers";
@@ -13,26 +10,16 @@ import React from 'react';
 import { Friends } from './Friends';
 import './Friends.scss';
 import { Preloader } from "../../common/Preloader/Preloader";
-import { getUsers } from "../../api/api";
+import { withAuthRedirect } from './../../Hoc/AuthRedirect';
 
 export class FriendsAPI extends React.Component {
     
     componentDidMount() {
-        this.props.setIsFetching(true);
-        getUsers(this.props.currentPage, this.props.pageSize).then(res => {
-            this.props.setIsFetching(false);
-            this.props.setUsers(res.items)
-            this.props.setUsersTotalCount(res.totalCount)
-        })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     onPageChanged = (page) => {
-        this.props.setCurrentPage(page);
-        this.props.setIsFetching(true);
-        getUsers(page, this.props.pageSize).then(res => {
-            this.props.setIsFetching(false);
-            this.props.setUsers(res.items);
-        })
+        this.props.getUsers(page, this.props.pageSize)
     }
     
     render(){        
@@ -43,8 +30,8 @@ export class FriendsAPI extends React.Component {
             currentPage={this.props.currentPage}
             onPageChanged={this.onPageChanged}
             users={this.props.users}
-            unfollow={this.props.unfollow}
-            follow={this.props.follow}
+            unFollowThunk={this.props.unFollowThunk}
+            followThunk={this.props.followThunk}
             setIsFollowProgress={this.props.setIsFollowProgress}
             isFollowProgress={this.props.isFollowProgress} />
         </>
@@ -57,13 +44,12 @@ const mapStateToProps = (state) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
         isFollowProgress: state.usersPage.followProgress
-
     }
 }
 
+let withRedirect = withAuthRedirect(FriendsAPI);
+
 export const FriendsContainer =  connect(mapStateToProps, {
-    follow, setUsers, unfollow, 
-    setCurrentPage, setUsersTotalCount, 
-    setIsFetching, setIsFollowProgress, getUsersThunkCreator })(FriendsAPI);
+    followThunk, unFollowThunk, 
+    setCurrentPage, setIsFollowProgress, getUsers: getUsersThunkCreator })(withRedirect);
