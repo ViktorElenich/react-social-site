@@ -11,6 +11,7 @@ import { Friends } from './Friends';
 import './Friends.scss';
 import { Preloader } from "../../common/Preloader/Preloader";
 import { withAuthRedirect } from './../../Hoc/AuthRedirect';
+import { compose } from 'redux';
 
 export class FriendsAPI extends React.Component {
     
@@ -48,8 +49,9 @@ const mapStateToProps = (state) => {
     }
 }
 
-let withRedirect = withAuthRedirect(FriendsAPI);
-
-export const FriendsContainer =  connect(mapStateToProps, {
-    followThunk, unFollowThunk, 
-    setCurrentPage, setIsFollowProgress, getUsers: getUsersThunkCreator })(withRedirect);
+export const FriendsContainer =  compose(
+    withAuthRedirect,
+    connect(mapStateToProps, {
+        followThunk, unFollowThunk, 
+        setCurrentPage, setIsFollowProgress, getUsers: getUsersThunkCreator })
+)(FriendsAPI);

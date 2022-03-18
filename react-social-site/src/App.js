@@ -20,7 +20,9 @@ const App = (props) => {
         <div className='content__container'>
           <Routes>
             <Route path='/messages/*' element={<DialogsContainer store={props.store} />} />
-            <Route path='/profile/:userId' element={<ProfileContainer />} />
+            <Route path='/profile/' element={<ProfileContainer />} >
+              <Route path=':userId' element={<ProfileContainer />} />
+            </Route>
             <Route path='/friends' element={<FriendsContainer />} />
             <Route path='/music' element={<Music />} />
             <Route path='/news' element={<News />} />
